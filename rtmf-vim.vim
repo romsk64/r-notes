@@ -47,7 +47,7 @@ highlight default link rtmfCodeBlock PreProc
 let s:lang_map = {
     \ 'c': 'c',
     \ 'cpp': 'cpp',
-    \ 'c++": "cpp',
+    \ 'c++': 'cpp',
     \ 'python': 'python',
     \ 'py': 'python',
     \ 'sh': 'sh',
@@ -67,7 +67,8 @@ let s:lang_map = {
     \ 'yml': 'yaml'
     \ }
 
-if main_syntax == 'rtmf'
+" if main_syntax == 'rtmf'
+if exists("b:current_syntax")
     for [s:alias, s:actual_syntax] in items(s:lang_map)
         let b:current_syntax = ''
         unlet b:current_syntax
