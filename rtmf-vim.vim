@@ -1,7 +1,7 @@
-" if exists("b:current_syntax")
-"     finish
-" endif
-syntax clear
+if exists("b:current_syntax")
+    finish
+endif
+"syntax clear
 
 " Заголовки
 syntax match rtmfHeader /^\(=\+\)\s.\+\s\1$/
