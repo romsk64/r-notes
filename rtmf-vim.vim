@@ -1,6 +1,7 @@
-if exists("b:current_syntax")
-    finish
-endif
+" if exists("b:current_syntax")
+"     finish
+" endif
+syntax clear
 
 " Заголовки
 syntax match rtmfHeader /^\(=\+\)\s.\+\s\1$/
@@ -40,7 +41,7 @@ highlight rtmfItalic cterm=italic gui=italic
 highlight default link rtmfMono Macro
 
 " Блоки кода
-syntax region rtmfCodeBlock start=/\/\/\/\*/ end=/\*([^\/]*)\/\/\// keepend
+syntax region rtmfCodeBlock start=/\/\/\/\*/ end=/\*\/\/\// keepend
 highlight default link rtmfCodeBlock PreProc
 
 " словарь соответствий - название языка: название файла
@@ -67,26 +68,24 @@ let s:lang_map = {
     \ 'yml': 'yaml'
     \ }
 
-" if main_syntax == 'rtmf'
-if exists("b:current_syntax")
-    for [s:alias, s:actual_syntax] in items(s:lang_map)
-        let b:current_syntax = ''
-        unlet b:current_syntax
+for [s:alias, s:actual_syntax] in items(s:lang_map)
+    let b:current_syntax = ''
+    unlet b:current_syntax
 
-        let s:safe_alias = substitute(s:aluias, '+', 'x', 'g')
-        execute 'syntax include @rtmf_' . s:safe_alias . ' syntax/' . s:actual_syntax . '.vim'
+    let s:safe_alias = substitute(s:alias, '+', 'x', 'g')
+    execute 'syntax include @rtmf_' . s:safe_alias . ' syntax/' . s:actual_syntax . '.vim'
 
-        execute 'syntax region rtmfCodeBlock_' . s:safe_alias .
-            \ ' start=/\/\/\/\*\s*\c\V' .
-            \ escape(s:alias, '/\*') .
-            \ '\>/' .
-            \ ' end=/\*\/\/\//' .
-            \ ' contains=@rmtf_' .
-            \ s:safe_alias .
-            \ ' keepend'
-    endfor
+    execute 'syntax region rtmfCodeBlock_' . s:safe_alias .
+        \ ' matchgroup=rmtfCodeBlock' .
+        \ ' start=/\/\/\/\*\s*\c\(' .
+        \ escape(s:alias, '/\*') .
+        \ '\)\>/' .
+        \ ' end=/\*\/\/\//' .
+        \ ' contains=@rmtf_' .
+        \ s:safe_alias .
+        \ ' keepend'
+endfor
 
-    unlet! s:alias s:actual_syntax s:safe_alias s:lang_map
-endif
+unlet! s:alias s:actual_syntax s:safe_alias s:lang_map
 
 let b:current_syntax = "rmtf"
