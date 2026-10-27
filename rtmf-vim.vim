@@ -77,7 +77,7 @@ for [s:alias, s:actual_syntax] in items(s:lang_map)
     execute 'syntax include @rtmf_' . s:safe_alias . ' syntax/' . s:actual_syntax . '.vim'
 
     execute 'syntax region rtmfCodeBlock_' . s:safe_alias .
-        \ ' matchgroup=rmtfCodeBlock' .
+        \ ' matchgroup=rtmfCodeBlock' .
         \ ' start=/\/\/\/\*\s*\c\(' .
         \ escape(s:alias, '/\*') .
         \ '\)\>/' .
