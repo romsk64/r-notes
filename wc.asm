@@ -1,4 +1,4 @@
-; word counter
+; Word counter
 ; программа для счета количества символов, слов и размера текста
 ;
 ; NASM, Windows
@@ -89,6 +89,13 @@ _wc_print:      ; int _wc_print(char *argv)
 _start:         ; int main(int argc, char *argv[])
     mov rcx, 0
     call ExitProcess
+
+
+%elif MACRO_SYSTEM == 2
+; ветка для Windows x86-32
+; пока не сделано
+
+%error "Not writed yet!"
 
 
 %else

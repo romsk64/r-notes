@@ -5,6 +5,7 @@ endif
 
 " Заголовки
 syntax match rtmfHeader /^\(=\+\)\s.\+\s\1$/
+syntax match rtmfHeader /^\(\~\+\)\s.\+\s\1$/
 highlight default link rtmfHeader Title
 
 " Списки
