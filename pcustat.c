@@ -132,6 +132,11 @@ PCUStat_genStatfilePath_lb_cleanupFailed:
 }
 
 int PCUStat_freeStatfilePath(wchar_t **resStr) {
+    if (resStr == NULL ||
+        *resStr == NULL) {
+        return 1;
+    }
+
     free(*resStr);
     *resStr = NULL;
 
