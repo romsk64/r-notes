@@ -89,7 +89,7 @@ int PCUStat_genStatfilePath(
         wcslen(PCUSTAT_MCR_STATFILE_NAME) + 1;
 
     {
-        register const size_t lots_8divWithMod_res = lengthOfTwoStrings % 8;
+        register const size_t lots_8divWithMod_res = lengthOfTwoStrings & 7;
 
         if (lots_8divWithMod_res != 0) {
             lengthOfTwoStrings += (8 - lots_8divWithMod_res);
