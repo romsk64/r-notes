@@ -1,0 +1,41 @@
+// NMAGS
+
+import std::io;
+import std::dynarray;
+// import std::vector;
+
+pure function addArr(
+    immutable variable arr: &slice immutable intmax
+) -> intmax {
+    mutable variable result: intmax;
+
+    foreach (immutable variable elem: &intmax; arr) {
+        result += elem;
+    }
+
+    return result;
+}
+
+
+impure function main(void) -> int {
+    mutable variable arrSize: intmax;
+    // mutable variable arr: std::vector::vector~(intmax);
+    mutable variable arr: std::dynarray::dynarray~(intmax);
+    mutable variable result: intmax;
+
+    std::io::print!("Enter array size: ");
+    std::io::scan!("{}", arrSize);
+
+    // arr = std::vector::init~(intmax)(arrSize);
+    arr = std::dynarray::init~(intmax)(arrSize);
+
+    result = addArr(
+        std::dynarray::toSlice~(intmax)(
+            arr,
+            ..
+        )
+    );
+
+    std::io::println!("Result: {}", result);
+    return 0;
+}

@@ -1,0 +1,8 @@
+// NMAGS
+
+import std::io;
+
+impure function main(void) -> int {
+    std::io::println!("Hello World!");
+    return 0;
+}
