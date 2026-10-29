@@ -10,7 +10,7 @@ pure function addArr(
     mutable variable result: intmax;
 
     foreach (immutable variable elem: &intmax; arr) {
-        result += elem;
+        set result += elem;
     }
 
     return result;
@@ -27,9 +27,9 @@ impure function main(void) -> int {
     std::io::scan!("{}", arrSize);
 
     // arr = std::vector::init~(intmax)(arrSize);
-    arr = std::dynarray::init~(intmax)(arrSize);
+    set arr = std::dynarray::init~(intmax)(arrSize);
 
-    result = addArr(
+    set result = addArr(
         std::dynarray::toSlice~(intmax)(
             arr,
             ..
