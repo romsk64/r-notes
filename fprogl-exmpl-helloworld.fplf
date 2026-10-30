@@ -1,0 +1,42 @@
+// FProgL (Fast Programming Language) - NMAGS-2
+
+import std::io;
+import std::dynarray;
+// import std::vector;
+
+pure func addArr(
+    imm var arr: &slice imm intmax
+) -> intmax {
+    mut var result: intmax;
+    result = 0;
+
+    foreach (imm var elem: &intmax in arr) {
+        set result += elem;
+    }
+
+    return result;
+}
+
+
+impure func main(void) -> int {
+    mut var arrSize: intmax;
+    // mutable variable arr: std::vector::vector~(intmax);
+    mut var arr: std::dynarray::dynarray~(intmax);
+    mut var result: intmax;
+
+    std::io::print!("Enter array size: ");
+    std::io::scan!("{}", arrSize);
+
+    // arr = std::vector::init~(intmax)(arrSize);
+    set arr = std::dynarray::init~(intmax)(arrSize);
+
+    set result = addArr(
+        std::dynarray::toSlice~(intmax)(
+            arr,
+            ..
+        )
+    );
+
+    std::io::println!("Result: {}", result);
+    return 0;
+}
