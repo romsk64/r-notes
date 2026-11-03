@@ -13,7 +13,7 @@ extern LocalFree
 
 section .text
 _start:
-    sub       rsp, 32 + 8 + 8                        ; выравнивание стека (8 на указаель, 8 на сохр. r12)
+    sub       rsp, 32 + 16 + 8                       ; выравнивание стека (8 на указаель, 8 на сохр. r12)
 
     call      GetCommandLineW
 
@@ -21,9 +21,18 @@ _start:
     mov       QWORD PTR [rsp + 32], 0
     lea       rdx, [rsp + 32]                        ; второй аргумент (указатель на argc)
     call      CommandLineToArgvW                     ; выхов функции
-;   mov       QWORD PTR [rsp + 32 + 8], r12          ; сохранение r12
-;   mov       r12, rax                               ; сохранение в r12 результата работы CommandLineToArgvW
+    mov       QWORD PTR [rsp + 32 + 8], r12          ; сохранение r12
+    mov       r12, rax                               ; сохранение в r12 результата работы CommandLineToArgvW
 
     mov       rcx, QWORD [rsp + 32]                  ; argc
-    mov       rdx, rax                               ; argv
-    call      wmain                                  ;
+    mov       rdx, rax                               ; argvW
+    call      wmain                                  ; вызов wmain
+
+    mov       QWORD PTR [rsp + 32 + 16], r13         ; сохранение r13
+    mov       r12, rax                               ; сохранение в r13 результата работы wmain
+
+    mov       rcx, QWORD [rsp + 32 + 8]              ; argvW
+    call      LocalFree                              ; очистка argvW
+
+    mov       rcx, QWORD [rsp + 32 + 16]             ; код выхода wmain в первый аргумент ExitProcess
+    call      ExitProcess                            ; завершение процесса
