@@ -18,7 +18,7 @@ _start:
     call      GetCommandLineW
 
     mov       rcx, rax                               ; первый аргумент (результат CommandLineToArgvW)
-    mov       QWORD PTR [rsp + 32], 0
+    mov       QWORD [rsp + 32], 0
     lea       rdx, [rsp + 32]                        ; второй аргумент (указатель на argc)
     call      CommandLineToArgvW                     ; выхов функции
     mov       QWORD [rsp + 32 + 8], r12              ; сохранение r12
@@ -39,4 +39,11 @@ _start:
 ;   mov       rcx, QWORD [rsp + 32 + 16]             ; код выхода wmain в первый аргумент ExitProcess
     mov       rcx, r13
     mov       r13, QWORD [rsp + 32 + 16]             ; возвращение изначального значения r13
+    add       rsp, 32 + 16 + 8
     call      ExitProcess                            ; завершение процесса
+
+wmain:                                               ; начало программы
+    mov       rax, 0
+    ret
+
+
