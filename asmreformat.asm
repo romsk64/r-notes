@@ -1,7 +1,7 @@
                                                      ; Форматтер ассемблера на ассемблере, лол
 
 global _start
-global main
+global wmain
 
 extern GetStdHandle                                   ; блок объявлений
 extern ReadFile
@@ -46,4 +46,35 @@ wmain:                                               ; начало програ
     mov       rax, 0
     ret
 
+; Функция изменения регистра в большой
+; Принимает:
+; 1. char *dest - массив для изменения
+; 2. size_t destSize - максимальный размер dest
+; 3. char *src - исходная строка
+; 4. size_t srcLength - длина исходной строки
+_toUpperRegister:
+    cmp       rcx, 0
+    jz        .retErrorNullptr
+    cmp       r8, 0
+    jz        .retErrorNullptr
 
+    xor       r10, r10
+.mainLoop:
+    cmp       [r8 + r10], 97
+    jl        .mainLoop_elsebr
+    cmp       [r8 + r10], 122
+    jg        .mainLoop_elsebr
+    mov       [rcx + r10], [r8 + r10]
+    sub       [rcx + r10], 32                        ; в ASCII на столько символов отлчаются мал. буквы от больш.
+.mainLoop_elsebr:
+    inc       r10
+    cmp       r10, rdx
+    jnz       .mainLoop
+
+.retErrorNullptr:
+    mov       rax, 1
+    ret
+
+.retErrorEmptyString:
+    mov       rax, 2
+    ret
