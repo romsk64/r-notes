@@ -11,6 +11,17 @@
 
 #define PCUSTAT_MCR_STATFILE_NAME "_pcustat_stat.txt"
 
+#if defined(__GNUC__) || defined(__clang__)
+    #define ALWAYSINLINE inline __attribute__((always_inline))
+#elif defined(_MSC_VER)
+    #define ALWAYSINLINE __forceinline
+#else
+    #define ALWAYSINLINE inline
+#endif
+
+#define PCUSTAT_MCR_LANG_ENGLISH_US 0
+#define PCUSTAT_MCR_LANG_RUSSIAN 1
+
 
 // wchar_t *pwszUserProfilePath;
 // wchar_t *pwszStatfilePath;
@@ -254,4 +265,57 @@ int PCUStat_savestat(
     struct PCUStat_STAT *restrict const stat,
     const wchar_t *restrict const pwszUserProfilePath
 ) {
+    return 0;
+}
 
+
+
+ALWAYSINLINE int PCUStat_Lang_getlang(
+    unsigned int *const language
+) {
+    LANGID langId;
+    WORD primaryLangId;
+    WORD subLandId;
+
+
+    if (language == NULL) return 1;
+
+    langId = GetUserDefaultUILanguage();
+    primaryLangId = PRIMARYLANGID(langId);
+    subLandId = SUBLANDID(lanfId);
+
+    if (primaryLangId == LANG_RUSSIAN) {
+        *language = PCUSTAT_MCR_LANG_RUSSIAN;
+    }
+    else {
+        *language = PCUSTAT_MCR_LANG_ENGLISH_US;
+    }
+
+    return 0;
+}
+
+ALWAYSINLINE void PCUStat_Help_printHelp() {
+    const wchar_t *helpString;
+    unsigned int language;
+    int errorCode;
+
+
+    errorCode = PCUStat_Lang_getlang(&language);
+    if (errorCode != 0) return;
+
+    if (language == PCUSTAT_MCR_LANG_RUSSIAN) {
+        helpString = \
+L"PCUStat - Personal Computer Using Statistics\n\
+Программа для получения
+
+// точка входа, интерфейс
+int main(int argc, char *argv[]) {
+    if (argc == 1) {
+        printf("No command writed!\n");
+        PCUStat_Help_printHelp();
+
+        return 1;
+    }
+
+    return 0;
+}
