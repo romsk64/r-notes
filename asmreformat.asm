@@ -43,6 +43,7 @@ _start:
     call      ExitProcess                            ; завершение процесса
 
 wmain:                                               ; начало программы
+    sub       rsp, 32                                ; выравнивание стека
     mov       rax, 0
     ret
 
